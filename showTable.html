@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<img src="encabezado.PNG" align="center border=5" />
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>datatable</title>
+	<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.css">
+	<!-- Bootstrap -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+	<div id="cuerpo">
+
+		<table id="MeasuresTable" class="display" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>Fecha</th>
+					<th>Variable</th>
+					<th>Valor</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+
+		<script>
+	$(document).ready(function(){
+	$.get("http://localhost:3000/show",
+		function(data,status){
+			//alert("Data: " + JSON.stringify(data) + "\nStatus: " + status);
+			drawTable(data);
+			$('#MeasuresTable').dataTable();
+		});
+	});
+
+
+	function drawRow(rowData) {
+		//alert(rowData);
+    		var row = $("<tr />");
+        //var variable = (rowData.variable == "5814bd3dbbfe7fad47a1bed1") ? "Temperatura" : ((rowData.variable == "5814bd82bbfe7fad47a1bed2") ? "Humedad" : "");
+		var variable = (rowData.variable == "58182650329623bff0cd8e85") ? "Temperatura" : ((rowData.variable == "5818265e329623bff0cd8e86") ? "Humedad" : "");
+		$("#MeasuresTable").append(row);
+		row.append($("<td>" + rowData.date + "</td>"));
+		row.append($("<td>" + variable + "</td>"));
+		row.append($("<td>" + rowData.val + "</td>"));
+	}
+
+	function drawTable(data) {
+    		for (var i = 0; i < data.length; i++) {
+        		drawRow(data[i]);
+    		}
+	}
+
+	
+	</script>
+	</div>
+	<div id="pie">
+		<img src="pie.PNG" align="center border=5" />
+	</div>
+</body>
+
+</html>
